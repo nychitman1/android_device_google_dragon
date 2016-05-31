@@ -274,7 +274,6 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     ro.enable_boot_charger_mode=1
 
 # TODO(dgreid) - Add back verity dependencies like flounder has.
-
 $(call inherit-product, build/target/product/vboot.mk)
 
 # only include verity on user builds
