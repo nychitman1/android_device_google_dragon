@@ -172,7 +172,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     ro.adb.secure=0 \
     ro.sf.lcd_density=320 \
     ro.opengles.version=196609 \
-	ro.du.updater=dragon
+    ro.du.updater=dragon
 
 # for audio
 #TODO(dgreid) do we need libnvvisualizer?
@@ -196,7 +196,6 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     ro.enable_boot_charger_mode=1
 
 # TODO(dgreid) - Add back verity dependencies like flounder has.
-
 $(call inherit-product, build/target/product/vboot.mk)
 $(call inherit-product, build/target/product/verity.mk)
 # including verity.mk automatically enabled boot signer which conflicts with
