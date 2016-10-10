@@ -34,7 +34,6 @@
 
 #include "timed_qos_manager.h"
 
-#define BOOSTPULSE_PATH "/sys/devices/system/cpu/cpufreq/interactive/boostpulse"
 #define CPU_MAX_FREQ_PATH "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq"
 #define IO_IS_BUSY_PATH "/sys/devices/system/cpu/cpufreq/interactive/io_is_busy"
 #define LIGHTBAR_SEQUENCE_PATH "/sys/class/chromeos/cros_ec/lightbar/sequence"
@@ -56,10 +55,7 @@
 
 struct dragon_power_module {
     struct power_module base;
-    pthread_mutex_t boost_pulse_lock;
     pthread_mutex_t low_power_lock;
-    int boostpulse_fd;
-    int boostpulse_warned;
     TimedQosManager *gpu_qos_manager;
 };
 
@@ -107,19 +103,17 @@ static void power_init(struct power_module __unused *module)
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/timer_rate",
                 "20000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/timer_slack",
-                "20000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/min_sample_time",
                 "80000");
+    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/min_sample_time",
+                "30000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/hispeed_freq",
-                "1530000");
+                "1224000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load",
                 "99");
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/target_loads",
                 "65 228000:75 624000:85");
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay",
                 "20000");
-    sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/boostpulse_duration",
-                "1000000");
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/io_is_busy", "0");
     sysfs_write("/sys/class/chromeos/cros_ec/lightbar/userspace_control", "1");
 
@@ -162,29 +156,6 @@ static void power_set_interactive(struct power_module __unused *module, int on)
     ALOGV("power_set_interactive: %d done\n", on);
 }
 
-static int boostpulse_open(struct dragon_power_module *dragon)
-{
-    char buf[80];
-    int len;
-
-    pthread_mutex_lock(&dragon->boost_pulse_lock);
-
-    if (dragon->boostpulse_fd < 0) {
-        dragon->boostpulse_fd = open(BOOSTPULSE_PATH, O_WRONLY);
-
-        if (dragon->boostpulse_fd < 0) {
-            if (!dragon->boostpulse_warned) {
-                strerror_r(errno, buf, sizeof(buf));
-                ALOGE("Error opening %s: %s\n", BOOSTPULSE_PATH, buf);
-                dragon->boostpulse_warned = 1;
-            }
-        }
-    }
-
-    pthread_mutex_unlock(&dragon->boost_pulse_lock);
-    return dragon->boostpulse_fd;
-}
-
 static void dragon_power_hint(struct power_module *module, power_hint_t hint,
                                 void *data)
 {
@@ -195,14 +166,6 @@ static void dragon_power_hint(struct power_module *module, power_hint_t hint,
 
     switch (hint) {
     case POWER_HINT_INTERACTION:
-        if (boostpulse_open(dragon) >= 0) {
-            len = write(dragon->boostpulse_fd, "1", 1);
-
-            if (len < 0) {
-                strerror_r(errno, buf, sizeof(buf));
-                ALOGE("Error writing to %s: %s\n", BOOSTPULSE_PATH, buf);
-            }
-        }
         if (dragon->gpu_qos_manager != NULL)
             dragon->gpu_qos_manager->requestTimedQos(ms2ns(GPU_BOOST_DURATION_MS));
 
@@ -259,10 +222,7 @@ struct dragon_power_module HAL_MODULE_INFO_SYM = {
         powerHint: dragon_power_hint,
     },
 
-    boost_pulse_lock: PTHREAD_MUTEX_INITIALIZER,
     low_power_lock: PTHREAD_MUTEX_INITIALIZER,
-    boostpulse_fd: -1,
-    boostpulse_warned: 0,
     gpu_qos_manager: NULL,
 };
 
