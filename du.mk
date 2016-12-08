@@ -32,5 +32,5 @@ PRODUCT_NAME := du_dragon
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
     PRODUCT_NAME=dragon \
-    BUILD_FINGERPRINT=google/ryu/dragon:7.1.1/NMF26H/3443022:userdebug/dev-keys \
-    PRIVATE_BUILD_DESC="ryu-user 7.1.1 NMF26H 3443022 dev-keys"
+    BUILD_FINGERPRINT=google/ryu/dragon:7.1.1/NMF26H/3443022:user/release-keys \
+    PRIVATE_BUILD_DESC="ryu-user 7.1.1 NMF26H 3443022 release-keys"
