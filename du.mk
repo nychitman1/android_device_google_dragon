@@ -1,5 +1,5 @@
 
-# Copyright (C) 2013-2016 The Android Open Source Project
+# Copyright (C) 2013-2017 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,8 +29,12 @@ $(call inherit-product, device/google/dragon/aosp_dragon.mk)
 $(call inherit-product, vendor/du/config/common_full_tablet_wifionly.mk)
 
 PRODUCT_NAME := du_dragon
+PRODUCT_DEVICE := dragon
+PRODUCT_BRAND := google
+PRODUCT_MODEL := Pixel C
+PRODUCT_MANUFACTURER := Google
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
     PRODUCT_NAME=dragon \
-    BUILD_FINGERPRINT=google/ryu/dragon:7.1.1/NMF26H/3443022:user/release-keys \
-    PRIVATE_BUILD_DESC="ryu-user 7.1.1 NMF26H 3443022 release-keys"
+    BUILD_FINGERPRINT=google/ryu/dragon:7.1.1/N4F26I/3532671:user/release-keys \
+    PRIVATE_BUILD_DESC="ryu-user 7.1.1 N4F26I 3532671 release-keys"
