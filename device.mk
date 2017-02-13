@@ -193,6 +193,10 @@ camera.flash_off=0 \
 drm.service.enabled=true \
 ro.com.widevine.cachesize=16777216
 
+# Face Unlock
+PRODUCT_PACKAGES += \
+libprotobuf-cpp-full
+
 # for keyboard key mappings
 PRODUCT_PACKAGES += \
     DragonKeyboard
@@ -236,5 +240,3 @@ PRODUCT_PACKAGES += \
     libdrm \
     rmi4update \
     rmihidtool
-
-$(call inherit-product-if-exists, vendor/nvidia/dragon/dragon-vendor.mk)
