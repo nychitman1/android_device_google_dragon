@@ -128,7 +128,18 @@ ifeq ($(SECURE_OS_BUILD),tlk)
   BOARD_SUPPORT_ROLLBACK_PROTECTION := true
 endif
 
-# Enable workaround for slow rom flash
+# Time Zone data
+PRODUCT_COPY_FILES += \
+bionic/libc/zoneinfo/tzdata:recovery/root/system/usr/share/zoneinfo/tzdata
+
+# TWRP
+TW_THEME:= landscape_hdpi
+BOARD_HAS_NO_REAL_SDCARD := true
+TW_NO_SCREEN_TIMEOUT := true
+TW_INCLUDE_CRYPTO := true
+TARGET_USES_LOGD := false
 BOARD_SUPPRESS_SECURE_ERASE := true
+TW_CUSTOM_BATTERY_PATH := /sys/class/power_supply/bq27742-0
+TW_BRIGHTNESS_PATH := /sys/class/backlight/lpm102a188a-backlight/brightness
 
 BOARD_HAL_STATIC_LIBRARIES := libdumpstate.dragon libhealthd.dragon
