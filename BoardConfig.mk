@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+$(shell mkdir -p out/target/product/dragon/root/vendor/firmware)
+
 # Use the non-open-source parts, if they're present
 -include vendor/google_devices/dragon/BoardConfigVendor.mk
 # Build a separate vendor.img
@@ -31,6 +33,12 @@ TARGET_2ND_ARCH_VARIANT := armv7-a-neon
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := cortex-a7
+
+# Build kernel inline
+TARGET_KERNEL_CONFIG := dragon_defconfig
+TARGET_KERNEL_SOURCE := kernel/google/dragon
+BOARD_KERNEL_IMAGE_NAME := Image.fit
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 
 # Disable emulator for "make dist" until there is a 64-bit qemu kernel
 BUILD_EMULATOR := false
@@ -94,7 +102,7 @@ WIFI_DRIVER_FW_PATH_AP      := "/vendor/firmware/fw_bcmdhd_apsta.bin"
 
 # Enable dex-preoptimization to speed up first boot sequence
 ifeq ($(HOST_OS),linux)
-  ifeq ($(TARGET_BUILD_VARIANT),user)
+  ifeq ($(TARGET_BUILD_VARIANT),userdebug)
     ifeq ($(WITH_DEXPREOPT),)
       WITH_DEXPREOPT := true
     endif
@@ -118,6 +126,9 @@ ifeq ($(SECURE_OS_BUILD),tlk)
 endif
 
 BOARD_HAL_STATIC_LIBRARIES := libhealthd.dragon
+
+# Enable workaround for slow rom flash
+BOARD_SUPPRESS_SECURE_ERASE := true
 
 # Testing related defines
 BOARD_PERFSETUP_SCRIPT := platform_testing/scripts/perf-setup/dragon-setup.sh

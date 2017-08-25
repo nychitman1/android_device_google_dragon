@@ -29,22 +29,11 @@ ifeq ($(wildcard vendor/nvidia/dragon-tlk/tlk),vendor/nvidia/dragon-tlk/tlk)
     SECURE_OS_BUILD ?= tlk
 endif
 
-ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/google/dragon-kernel/Image.fit
-else
-LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
-endif
-
-ifeq ($(TARGET_PRODUCT), ryu_kasan)
-LOCAL_FSTAB := $(LOCAL_PATH)/fstab.dragon.nocrypt
-else
 LOCAL_FSTAB := $(LOCAL_PATH)/fstab.dragon
-endif
 
 TARGET_RECOVERY_FSTAB = $(LOCAL_FSTAB)
 
 PRODUCT_COPY_FILES := \
-    $(LOCAL_KERNEL):kernel \
     $(LOCAL_PATH)/dump_bq25892.sh:system/bin/dump_bq25892.sh \
     $(LOCAL_PATH)/touchfwup.sh:system/bin/touchfwup.sh \
     $(LOCAL_PATH)/init.dragon.rc:root/init.dragon.rc \
@@ -72,7 +61,7 @@ PRODUCT_PACKAGES += \
     CrashReportProvider \
     fwtool
 
-ifeq ($(TARGET_BUILD_VARIANT),eng)
+ifeq ($(TARGET_BUILD_VARIANT),userdebug)
 PRODUCT_PACKAGES += \
     tinyplay \
     tinycap \
@@ -219,9 +208,11 @@ $(call inherit-product, frameworks/native/build/tablet-10in-xhdpi-2048-dalvik-he
 
 # set default USB configuration
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    ro.adb.secure=1 \
+    persist.sys.usb.config=mtp,adb \
+    ro.adb.secure=0 \
     ro.sf.lcd_density=320 \
-    ro.opengles.version=196610
+    ro.opengles.version=196610 \
+    ro.du.updater=dragon
 
 # for audio
 #TODO(dgreid) do we need libnvvisualizer?
@@ -260,6 +251,20 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PACKAGES += \
     DragonKeyboard
 
+# DRM Mappings
+PRODUCT_PROPERTY_OVERRIDES += \
+    camera.flash_off=0 \
+    drm.service.enabled=true \
+    ro.com.widevine.cachesize=16777216
+
+# Face Unlock
+PRODUCT_PACKAGES += \
+    libprotobuf-cpp-full
+
+# Google Assistant
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.opa.eligible_device=true
+
 # Vibrator HAL
 PRODUCT_PACKAGES += \
     android.hardware.vibrator@1.0-impl
@@ -292,7 +297,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.hardware.vulkan=tegra
 
 $(call inherit-product-if-exists, hardware/nvidia/tegra132/tegra132.mk)
-$(call inherit-product-if-exists, vendor/google_devices/dragon/device-vendor.mk)
+$(call inherit-product-if-exists, vendor/nvidia/dragon/device-vendor.mk)
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
 
 ENABLE_LIBDRM := true
