@@ -1,5 +1,4 @@
-
-# Copyright (C) 2013-2017 The Dirty Unicorns Project
+# Copyright (C) 2017 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,26 +14,24 @@
 
 #
 # This file is the build configuration for an aosp Android
-# build for flounder hardware. This cleanly combines a set of
+# build for dragon hardware. This cleanly combines a set of
 # device-specific aspects (drivers) with a device-agnostic
 # product configuration (apps). Except for a few implementation
 # details, it only fundamentally contains two inherit-product
-# lines, aosp and flounder, hence its name.
+# lines, aosp and dragon, hence its name.
 #
 
-# Inherit from those products. Most specific first.
+PRODUCT_COPY_FILES += \
+    device/google/dragon/manifest_dragon_car.xml:vendor/manifest.xml
+
+$(call inherit-product, packages/services/Car/car_product/build/car.mk)
 $(call inherit-product, device/google/dragon/aosp_dragon.mk)
 
-# Inherit from our custom product configuration
-$(call inherit-product, vendor/du/config/common_full_tablet_wifionly.mk)
+BOARD_SEPOLICY_DIRS += packages/services/Car/car_product/sepolicy
 
-PRODUCT_NAME := du_dragon
+PRODUCT_NAME := aosp_dragon_car
 PRODUCT_DEVICE := dragon
-PRODUCT_BRAND := google
-PRODUCT_MODEL := Pixel C
+PRODUCT_BRAND := Android
+PRODUCT_MODEL := Android Auto Embedded on dragon
 PRODUCT_MANUFACTURER := Google
-
-PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRODUCT_NAME=dragon \
-    BUILD_FINGERPRINT=google/ryu/dragon:8.1.0/OPM1.171019.011/4448085:user/release-keys \
-    PRIVATE_BUILD_DESC="ryu-user 8.1.0 OPM1.171019.011 4448085 release-keys"
+#PRODUCT_RESTRICT_VENDOR_FILES := true

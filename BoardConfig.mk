@@ -132,3 +132,7 @@ BOARD_SUPPRESS_SECURE_ERASE := true
 
 # Testing related defines
 BOARD_PERFSETUP_SCRIPT := platform_testing/scripts/perf-setup/dragon-setup.sh
+
+# Vendor Interface Manifest
+DEVICE_MANIFEST_FILE := device/google/dragon/manifest.xml
+DEVICE_MATRIX_FILE := device/google/dragon/compatibility_matrix.xml
