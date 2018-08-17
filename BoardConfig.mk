@@ -38,7 +38,7 @@ BOARD_KERNEL_IMAGE_NAME := Image.fit
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 
 # Boot permissive temporarily
-BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 
 # Disable emulator for "make dist" until there is a 64-bit qemu kernel
 BUILD_EMULATOR := false
@@ -126,6 +126,10 @@ ifeq ($(SECURE_OS_BUILD),tlk)
 endif
 
 BOARD_HAL_STATIC_LIBRARIES := libhealthd.dragon
+
+# Shims
+TARGET_LD_SHIM_LIBS := \
+    /vendor/lib/hw/camera.dragon.so|libshim_camera.so
 
 # Enable workaround for slow rom flash
 BOARD_SUPPRESS_SECURE_ERASE := true
