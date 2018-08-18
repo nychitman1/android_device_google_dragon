@@ -37,9 +37,6 @@ TARGET_KERNEL_SOURCE := kernel/google/dragon
 BOARD_KERNEL_IMAGE_NAME := Image.fit
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 
-# Boot permissive temporarily
-BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
-
 # Disable emulator for "make dist" until there is a 64-bit qemu kernel
 BUILD_EMULATOR := false
 
