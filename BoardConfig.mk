@@ -37,6 +37,9 @@ TARGET_KERNEL_SOURCE := kernel/google/dragon
 BOARD_KERNEL_IMAGE_NAME := Image.fit
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 
+# Boot permissive temporarily
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+
 # Disable emulator for "make dist" until there is a 64-bit qemu kernel
 BUILD_EMULATOR := false
 
@@ -53,11 +56,11 @@ BOARD_USES_DRM_HWCOMPOSER := true
 BOARD_DRM_HWCOMPOSER_BUFFER_IMPORTER := nvidia-gralloc
 BOARD_USES_LIBDRM := true
 TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
+TARGET_USES_HWC2 := true
 
 PRESENT_TIME_OFFSET_FROM_VSYNC_NS := 0
 VSYNC_EVENT_PHASE_OFFSET_NS := 7500000
 SF_VSYNC_EVENT_PHASE_OFFSET_NS := 5000000
-TARGET_USES_HWC2 := true
 
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USES_MKE2FS := true
