@@ -2,11 +2,11 @@
  {
     "repository":   "DirtyUnicorns/android_kernel_google_dragon",
     "target_path":  "kernel/google/dragon",
-    "branch":       "o8x"
+    "branch":       "p9x"
  },
  {
     "repository":   "DirtyUnicorns/android_vendor_nvidia",
     "target_path":  "vendor/nvidia",
-    "branch":       "o8x"
+    "branch":       "p9x"
  }
 ]
