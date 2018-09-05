@@ -1,4 +1,3 @@
-
 # Copyright (C) 2013-2018 The Dirty Unicorns Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,8 +33,8 @@ PRODUCT_BRAND := google
 PRODUCT_MODEL := Pixel C
 PRODUCT_MANUFACTURER := Google
 
-BUILD_FINGERPRINT := google/ryu/dragon:8.1.0/OPM4.171019.021.Y1/4903051:user/release-keys
+BUILD_FINGERPRINT := google/ryu/dragon:8.1.0/OPM4.171019.021.Z1/4931697:user/release-keys
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
     PRODUCT_NAME=dragon \
-    PRIVATE_BUILD_DESC="ryu-user 8.1.0 OPM4.171019.021.Y1 4903051 release-keys"
+    PRIVATE_BUILD_DESC="ryu-user 8.1.0 OPM4.171019.021.Z1 4931697 release-keys"
