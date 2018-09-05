@@ -127,7 +127,7 @@ BOARD_HAL_STATIC_LIBRARIES := libhealthd.dragon
 
 # Shims
 TARGET_LD_SHIM_LIBS := \
-    /vendor/lib/hw/camera.dragon.so|libshim_camera.so
+    /vendor/lib/hw/camera.dragon.so|vendor/lib/libshim_camera.so
 
 # Enable workaround for slow rom flash
 BOARD_SUPPRESS_SECURE_ERASE := true
