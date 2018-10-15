@@ -35,7 +35,8 @@ TARGET_2ND_CPU_VARIANT := cortex-a53
 TARGET_KERNEL_CONFIG := dragon_defconfig
 TARGET_KERNEL_SOURCE := kernel/google/dragon
 BOARD_KERNEL_IMAGE_NAME := Image.fit
-TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
+TARGET_KERNEL_CLANG_COMPILE := true
+TARGET_KERNEL_CLANG_VERSION := 7.0.2
 
 # Disable emulator for "make dist" until there is a 64-bit qemu kernel
 BUILD_EMULATOR := false
