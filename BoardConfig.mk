@@ -36,7 +36,7 @@ TARGET_KERNEL_CONFIG := dragon_defconfig
 TARGET_KERNEL_SOURCE := kernel/google/dragon
 BOARD_KERNEL_IMAGE_NAME := Image.fit
 TARGET_KERNEL_CLANG_COMPILE := true
-TARGET_KERNEL_CLANG_VERSION := 8.0.6
+TARGET_KERNEL_CLANG_VERSION := 8.0.7
 
 # Disable emulator for "make dist" until there is a 64-bit qemu kernel
 BUILD_EMULATOR := false
