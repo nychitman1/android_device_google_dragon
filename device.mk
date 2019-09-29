@@ -224,6 +224,9 @@ USE_DRM_HWCOMPOSER := 1
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.hardware.vulkan=tegra
 
+PRODUCT_PROPERTY_OVERRIDES += \
+    debug.stagefright.ccodec=0
+
 $(call inherit-product-if-exists, hardware/nvidia/tegra132/tegra132.mk)
 $(call inherit-product-if-exists, vendor/nvidia/dragon/device-vendor.mk)
 $(call inherit-product-if-exists, vendor/nvidia/dragon-common/device-vendor.mk)
