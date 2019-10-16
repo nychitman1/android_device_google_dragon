@@ -211,6 +211,9 @@ on fs
     # Start HW service manager early
     start hwservicemanager
 
+    setprop persist.adb.nonblocking_ffs 0
+    setprop ro.adb.nonblocking_ffs 0
+
 # run the touch firmware update script as soon as non-tmpfs /data is ready
 on property:vold.decrypt=trigger_restart_framework
     exec -- /system/bin/touchfwup.sh
